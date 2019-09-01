@@ -11,3 +11,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.stage img {
+  height: 100%;
+  width: 100%;
+}
+
+.stage-with-image {
+  background-image: url('./pluto.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}

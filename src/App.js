@@ -1,24 +1,55 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+
+import Header from './Header';
+import Panel from './Panel';
+import Stage from './Stage';
+
 import './App.css';
 
+const contentTypes = [
+  'image',
+  'video'
+];
+
+const animationTypes = [
+  'suboptimal',
+  'optimized'
+];
+
 function App() {
+  const [ content, setContent ] = useState(contentTypes[0]);
+  const [ animation, setAnimation ] = useState(animationTypes[1]);
+  const [ isOpen, setIsOpen ] = useState(false);
+  const [ isFull, setIsFull ] = useState(false);
+
+  const toggleOpen = () => {
+    setIsOpen(!isOpen);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <Header
+        contentTypes={contentTypes}
+        animationTypes={animationTypes}
+        selectedContent={content}
+        selectedAnimation={animation}
+        onContentChange={(content) => setContent(content)}
+        onAnimationChange={(animation) => setAnimation(animation)}
+        onToggleOpen={toggleOpen}
+      />
+      <main>
+        <Stage
+          content={content}
+          animation={animation}
+          isOpen={isOpen}
+          isFull={isFull}
+        />
+        <Panel
+          animation={animation}
+          isOpen={isOpen}
+          isMinimized={isFull}
+        />
+      </main>
     </div>
   );
 }
