@@ -5,26 +5,25 @@ import { useSpring, animated } from 'react-spring';
 import pluto from './pluto.jpg';
 
 const Stage = (props) => {
+
+  return props.animation === 'optimized' ?
+    <StaticStage {...props} /> :
+    <WidthChangingStage {...props} />;
+};
+
+const WidthChangingStage = (props) => {
   const classes = classNames(
     'stage',
     {'stage-with-image': props.content === 'image'}
-  )
-
-  const initialConfig = props.animation === 'optimized'
-    ? { }
-    : { width: 'calc(-36px + 100vw )' }
+  );
 
   const [animation, setAnimation] = useSpring(() => ({
     config: { tension: 280, friction: 45 },
-    ...initialConfig
+    width: 'calc(-36px + 100vw )'
   }));
 
   useEffect(() => {
-    if (props.animation === 'optimized') {
-      return;
-    }
-
-    const getBrowserWidth = (): string => {
+    const getWidth = (): string => {
       if (props.isOpen) {
         return 'calc(41px + 0vw)';
       } else if (!props.isFull) {
@@ -34,18 +33,27 @@ const Stage = (props) => {
       }
     };
     setAnimation({
-      width: getBrowserWidth()
+      width: getWidth()
     });
   }, [props.animation, props.isOpen, props.isFull, setAnimation]);
 
-  return props.animation === 'optimized' ? (
-    <div className={classes}>
-      <img src={pluto} alt="pluto" />
-    </div>
-  ) : (
+  return (
     <animated.div style={animation} className={classes}>
       <img src={pluto} alt="pluto" />
     </animated.div>
+  );
+};
+
+const StaticStage = (props) => {
+  const classes = classNames(
+    'stage',
+    {'stage-with-image': props.content === 'image'}
+  );
+
+  return (
+    <div className={classes}>
+      <img src={pluto} alt="pluto" />
+    </div>
   );
 };
 
