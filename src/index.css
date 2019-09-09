@@ -1,3 +1,7 @@
+html, body, #root {
+  height: 100%;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -18,7 +22,6 @@ code {
 }
 
 .stage-with-image {
-  background-image: url('./pluto.jpg');
   background-size: cover;
   background-repeat: no-repeat;
 }

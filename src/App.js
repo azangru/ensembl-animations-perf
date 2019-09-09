@@ -1,57 +1,39 @@
 import React, { useState } from 'react';
 
-import Header from './Header';
-import Panel from './Panel';
-import Stage from './Stage';
+import Horizontal from './horizontal/Main';
+import Vertical from './vertical/Main';
 
 import './App.css';
 
-const contentTypes = [
-  'image',
-  'video'
-];
-
-const animationTypes = [
-  'suboptimal',
-  'optimized'
-];
-
 function App() {
-  const [ content, setContent ] = useState(contentTypes[0]);
-  const [ animation, setAnimation ] = useState(animationTypes[1]);
-  const [ isOpen, setIsOpen ] = useState(false);
-  const [ isFull, setIsFull ] = useState(false);
+  const [ content, setContent ] = useState(null);
 
-  const toggleOpen = () => {
-    setIsOpen(!isOpen);
+  const chooseHorizontal = () => {
+    setContent('horizontal');
   }
 
-  return (
-    <div className="app">
-      <Header
-        contentTypes={contentTypes}
-        animationTypes={animationTypes}
-        selectedContent={content}
-        selectedAnimation={animation}
-        onContentChange={(content) => setContent(content)}
-        onAnimationChange={(animation) => setAnimation(animation)}
-        onToggleOpen={toggleOpen}
-      />
-      <main>
-        <Stage
-          content={content}
-          animation={animation}
-          isOpen={isOpen}
-          isFull={isFull}
-        />
-        <Panel
-          animation={animation}
-          isOpen={isOpen}
-          isMinimized={isFull}
-        />
-      </main>
-    </div>
-  );
+  const chooseVertical = () => {
+    setContent('vertical');
+  }
+
+  const selectors = (
+    <>
+      <span onClick={chooseHorizontal}>
+        Horizontal
+      </span>
+      <span onClick={chooseVertical}>
+        Vertical
+      </span>
+    </>
+  )
+
+  if (content === 'horizontal') {
+    return <Horizontal />
+  } else if (content === 'vertical') {
+    return <Vertical />
+  } else {
+    return selectors
+  }
 }
 
 export default App;
